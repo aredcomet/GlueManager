@@ -15,6 +15,9 @@ import environ
 
 from datetime import timedelta
 
+from huey import RedisHuey
+from redis import ConnectionPool
+
 
 env = environ.Env()
 environ.Env.read_env()
@@ -45,10 +48,13 @@ DJANGO_DEFAULT_APPS = [
 THIRD_PARTY_APPS = [
     'rest_framework',
     'knox',
+    'huey.contrib.djhuey',
 ]
 
 GLUE_MANAGER_APPS = [
     'apps.user',
+    'apps.account',
+    'apps.glue',
 ]
 
 INSTALLED_APPS = DJANGO_DEFAULT_APPS + THIRD_PARTY_APPS + GLUE_MANAGER_APPS
@@ -116,3 +122,7 @@ REST_KNOX = {
     'TOKEN_TTL': timedelta(hours=10),
     'USER_SERIALIZER': 'apps.user.serializers.UserSerializer',
 }
+
+
+pool = ConnectionPool().from_url(env("HUEY_REDIS_URL", default='redis://redis:6379'), max_connections=10)
+HUEY = RedisHuey('glue-manager-redis-huey', connection_pool=pool)

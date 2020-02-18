@@ -28,6 +28,12 @@ services:
       - "9090:8000"
     depends_on:
       - database
+      - redis
+
+  redis:
+    image: redis:5.0.5
+    volumes:
+      - redis-data:/data
 
 volumes:
   app-python-site-packages:
@@ -35,4 +41,6 @@ volumes:
   psql-data:
     driver: local
   app-usr-local-bin:
+    driver: local
+  redis-data:
     driver: local
