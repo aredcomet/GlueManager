@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  database:
+    image: postgres:12.2-alpine
+    volumes:
+      - psql-data:/var/lib/postgresql/data
+      - .:/application
+    environment:
+      POSTGRES_DB: glue_manager
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "9432:5432"
+  web:
+    build: .
+    working_dir: /application/server
+    env_file:
+      - server/config/settings/.env
+#    command: "tail -f /dev/null"
+    command: ["bash", "docker_entry.sh", "python3", "manage.py", "runserver", "0:8000"]
+    volumes:
+      - .:/application
+      - ~/.aws/credentials:/root/.aws/credentials
+      - app-python-site-packages:/usr/local/lib/python3.8/site-packages
+      - app-usr-local-bin:/usr/local/bin
+    ports:
+      - "9090:8000"
+    depends_on:
+      - database
+
+volumes:
+  app-python-site-packages:
+    driver: local
+  psql-data:
+    driver: local
+  app-usr-local-bin:
+    driver: local

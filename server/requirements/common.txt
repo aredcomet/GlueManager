@@ -1,0 +1,36 @@
+# Django Web Framework
+Django==3.0.3
+
+# Django Dependencies
+asgiref==3.2.3
+pytz==2019.3
+sqlparse==0.3.0
+
+# Postgres Adapter
+psycopg2==2.8.4
+
+# Environment Variables
+django-environ==0.4.5
+
+# Django REST Framework
+djangorestframework==3.11.0
+
+# Django REST Auth
+django-rest-knox==4.1.0
+
+# Django REST Auth Dependencies
+cffi==1.14.0
+cryptography==2.8
+pycparser==2.19
+six==1.14.0
+
+# AWS Boto3
+boto3==1.12.1
+
+# Boto3 Dependencies
+botocore==1.15.1
+docutils==0.15.2
+jmespath==0.9.4
+python-dateutil==2.8.1
+s3transfer==0.3.3
+urllib3==1.25.8
