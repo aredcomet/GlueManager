@@ -35,6 +35,22 @@ services:
     volumes:
       - redis-data:/data
 
+  huey:
+    build: .
+    working_dir: /application/server
+    env_file:
+      - server/config/settings/.env
+    #    command: "tail -f /dev/null"
+    command: ["python3", "manage.py", "run_huey", "-k",  "process", "-w", "4"]
+    volumes:
+      - .:/application
+      - app-python-site-packages:/usr/local/lib/python3.6/site-packages
+      - app-usr-local-bin:/usr/local/bin
+      - ~/.aws/credentials:/root/.aws/credentials
+    depends_on:
+      - database
+      - redis
+
 volumes:
   app-python-site-packages:
     driver: local

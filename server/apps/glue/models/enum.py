@@ -22,3 +22,9 @@ class RunStateEnum(DjangoChoicesEnum):
     SUCCEEDED = 'SUCCEEDED'
     FAILED = 'FAILED'
     TIMEOUT = 'TIMEOUT'
+
+
+class WorkerTypeEnum(DjangoChoicesEnum):
+    STANDARD = 'Standard'
+    G1_X = 'G1.X'
+    G2_X = 'G2.X'

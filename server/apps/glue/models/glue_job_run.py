@@ -4,7 +4,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.postgres.fields import JSONField, ArrayField
 
-from .enum import RunStateEnum
+from .enum import RunStateEnum, WorkerTypeEnum
 
 
 class GlueJobRun(models.Model):
@@ -37,18 +37,18 @@ class GlueJobRun(models.Model):
     )
 
     started_on = models.DateTimeField(
-        null=False,
-        blank=False,
+        blank=True,
+        null=True,
     )
 
     last_modified_on = models.DateTimeField(
-        null=False,
-        blank=False,
+        blank=True,
+        null=True,
     )
 
     completed_on = models.DateTimeField(
-        null=False,
-        blank=False,
+        null=True,
+        blank=True,
     )
 
     state = models.CharField(
@@ -60,8 +60,8 @@ class GlueJobRun(models.Model):
 
     arguments = JSONField(
         default=dict,
-        blank=False,
-        null=False
+        blank=True,
+        null=True,
     )
 
     error_message = models.TextField(
@@ -73,12 +73,14 @@ class GlueJobRun(models.Model):
         base_field=models.CharField(
             max_length=1000,
             blank=True,
-        )
+        ),
+        blank=True,
+        null=True,
     )
 
     allocated_capacity = models.IntegerField(
-        blank=False,
-        null=False,
+        blank=True,
+        null=True,
     )
 
     execution_time = models.IntegerField(
@@ -96,6 +98,18 @@ class GlueJobRun(models.Model):
         null=True,
     )
 
+    worker_type = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        choices=WorkerTypeEnum.choices()
+    )
+
+    number_of_workers = models.IntegerField(
+        blank=True,
+        null=True,
+    )
+
     log_group_name = models.CharField(
         max_length=1000,
         blank=True,
@@ -103,4 +117,4 @@ class GlueJobRun(models.Model):
     )
 
     def __str__(self):
-        return "Job - " + self.job.name + ", Run ID: " + self.run_id
+        return "Job - " + self.job.name + ", Run ID: " + self.run_id if self.run_id else "NA"
