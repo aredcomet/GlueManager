@@ -44,8 +44,8 @@ services:
     command: ["python3", "manage.py", "run_huey", "-k",  "process", "-w", "4"]
     volumes:
       - .:/application
-      - app-python-site-packages:/usr/local/lib/python3.6/site-packages
-      - app-usr-local-bin:/usr/local/bin
+      - huey-python-site-packages:/usr/local/lib/python3.6/site-packages
+      - huey-usr-local-bin:/usr/local/bin
       - ~/.aws/credentials:/root/.aws/credentials
     depends_on:
       - database
@@ -54,9 +54,13 @@ services:
 volumes:
   app-python-site-packages:
     driver: local
-  psql-data:
-    driver: local
   app-usr-local-bin:
+    driver: local
+  huey-python-site-packages:
+    driver: local
+  huey-usr-local-bin:
+    driver: local
+  psql-data:
     driver: local
   redis-data:
     driver: local
