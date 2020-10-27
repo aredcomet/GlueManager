@@ -20,7 +20,7 @@ django-rest-knox==4.1.0
 
 # Django REST Auth Dependencies
 cffi==1.14.0
-cryptography==2.8
+cryptography==3.2
 pycparser==2.19
 six==1.14.0
 
